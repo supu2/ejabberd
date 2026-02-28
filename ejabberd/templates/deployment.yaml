@@ -43,6 +43,9 @@ spec:
             - name: xmpp-c2s
               containerPort: 5222
               protocol: TCP
+            - name: xmpp-c2s-tls
+              containerPort: 5223
+              protocol: TCP
             - name: xmpp-s2s
               containerPort: 5269
               protocol: TCP
