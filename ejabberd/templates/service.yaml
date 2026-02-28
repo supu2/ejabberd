@@ -11,6 +11,10 @@ spec:
       targetPort: xmpp-c2s
       protocol: TCP
       name: xmpp-c2s
+    - port: 5223
+      targetPort: xmpp-c2s-tls
+      protocol: TCP
+      name: xmpp-c2s-tls
     - port: 5269
       targetPort: xmpp-s2s
       protocol: TCP
