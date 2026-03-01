@@ -41,6 +41,9 @@ spec:
           envFrom:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          env:
+            - name: "SLIDGE_SERVER"
+              value: {{ include "ejabberd.fullname" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
