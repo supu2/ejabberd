@@ -1,0 +1,74 @@
+{{- if .Values.slidge.whatsapp.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ejabberd.fullname" . }}-slidge-whatsapp
+  labels:
+    {{- include "ejabberd.labels" . | nindent 4 }}
+    app.kubernetes.io/component: slidge-whatsapp
+spec:
+  replicas: {{ .Values.slidge.whatsapp.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ejabberd.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: slidge-whatsapp
+  template:
+    metadata:
+      annotations:
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ejabberd.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: slidge-whatsapp
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "ejabberd.serviceAccountName" . }}
+      automountServiceAccountToken: false
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: slidge-whatsapp
+          image: "{{ .Values.slidge.whatsapp.image.repository }}:{{ .Values.slidge.whatsapp.image.tag }}"
+          imagePullPolicy: {{ .Values.slidge.whatsapp.image.pullPolicy }}
+          {{- with .Values.slidge.whatsapp.envFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/slidge
+              subPath: slidge
+              readOnly: false
+      volumes:
+        - name: data
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "ejabberd.pvcName" . }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

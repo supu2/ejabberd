@@ -132,3 +132,13 @@ config:
   # certificates are managed elsewhere, do not attempt to get certs automatically
   acme:
     auto: false
+
+slidge:
+  whatsapp:
+    enabled: false
+    image:
+      repository: codeberg.org/slidge/slidge-whatsapp
+      tag: "latest-arm64"
+      pullPolicy: IfNotPresent
+    replicaCount: 1
+    envFrom: []
