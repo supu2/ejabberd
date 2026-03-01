@@ -19,6 +19,10 @@ spec:
       targetPort: xmpp-s2s
       protocol: TCP
       name: xmpp-s2s
+    - port: 5347
+      targetPort: int-slidge
+      protocol: TCP
+      name: int-slidge
     - port: 5443
       targetPort: http
       protocol: TCP
