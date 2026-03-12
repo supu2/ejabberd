@@ -55,12 +55,15 @@ spec:
             - name: http
               containerPort: 5443
               protocol: TCP
+            - name: http-admin
+              containerPort: 5280
+              protocol: TCP
           readinessProbe:
             tcpSocket:
-              port: http
+              port: http-admin
           livenessProbe:
             tcpSocket:
-              port: xmpp-c2s
+              port: http-admin
             initialDelaySeconds: 15
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
