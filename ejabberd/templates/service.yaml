@@ -7,6 +7,14 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
+    - port: 3478
+      targetPort: xmpp-3478
+      protocol: TCP
+      name: xmpp-3478
+    - port: 3478
+      targetPort: xmpp-3478-udp
+      protocol: UDP
+      name: xmpp-3478-udp
     - port: 5222
       targetPort: xmpp-c2s
       protocol: TCP
@@ -23,17 +31,22 @@ spec:
       targetPort: int-slidge
       protocol: TCP
       name: int-slidge
+    - port: 5349
+      targetPort: xmpp-5349-tls
+      protocol: TCP
+      name: xmpp-5349-tls
     - port: 5443
       targetPort: http
       protocol: TCP
       name: http
     - port: 5280
-      targetPort: admin-http
+      targetPort: http-admin
       protocol: TCP
-      name: admin-http
+      name: http-admin
     - port: 1883
       targetPort: mqtt
       protocol: TCP
       name: mqtt
   selector:
     {{- include "ejabberd.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: ejabberd

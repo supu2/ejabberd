@@ -9,6 +9,7 @@ spec:
   selector:
     matchLabels:
       {{- include "ejabberd.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: ejabberd
   template:
     metadata:
       annotations:
@@ -17,6 +18,7 @@ spec:
       {{- end }}
       labels:
         {{- include "ejabberd.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: ejabberd
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -40,6 +42,12 @@ spec:
             - name: "TINI_SUBREAPER"
               value: "true"
           ports:
+            - name: xmpp-3478
+              containerPort: 3478
+              protocol: TCP
+            - name: xmpp-3478-udp
+              containerPort: 3478
+              protocol: UDP
             - name: xmpp-c2s
               containerPort: 5222
               protocol: TCP
@@ -52,18 +60,24 @@ spec:
             - name: int-slidge
               containerPort: 5347
               protocol: TCP
+            - name: xmpp-5349-tls
+              containerPort: 5349
+              protocol: TCP
             - name: http
               containerPort: 5443
               protocol: TCP
-            - name: http-admin
+            - name: admin-http
               containerPort: 5280
+              protocol: TCP
+            - name: healthz
+              containerPort: 5281
               protocol: TCP
           readinessProbe:
             tcpSocket:
-              port: http-admin
+              port: healthz
           livenessProbe:
             tcpSocket:
-              port: http-admin
+              port: healthz
             initialDelaySeconds: 15
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
