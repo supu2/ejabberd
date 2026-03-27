@@ -42,6 +42,9 @@ spec:
             - name: "TINI_SUBREAPER"
               value: "true"
           ports:
+            - name: mqtt
+              containerPort: 1883
+              protocol: TCP
             - name: xmpp-3478
               containerPort: 3478
               protocol: TCP
@@ -66,7 +69,7 @@ spec:
             - name: http
               containerPort: 5443
               protocol: TCP
-            - name: admin-http
+            - name: xmpp-admin
               containerPort: 5280
               protocol: TCP
             - name: healthz
