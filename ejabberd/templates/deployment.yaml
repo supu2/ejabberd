@@ -117,7 +117,7 @@ spec:
           - /scripts/watch.sh
           env:
           - name: ERLANG_NODE
-          value: ejabberd@localhost
+            value: ejabberd@localhost
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
