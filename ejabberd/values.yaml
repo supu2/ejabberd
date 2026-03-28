@@ -132,7 +132,10 @@ config:
   # certificates are managed elsewhere, do not attempt to get certs automatically
   acme:
     auto: false
-
+turn:
+  portSettings:
+    start: 50000
+    end: 50010
 slidge:
   whatsapp:
     enabled: false

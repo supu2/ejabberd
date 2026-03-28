@@ -75,39 +75,13 @@ spec:
             - name: healthz
               containerPort: 5281
               protocol: TCP
-            - name: xmpp-turn-50000
-              containerPort: 50000
+            {{- $start := .Values.turn.portSettings.start -}}
+            {{- $end := add1 .Values.turn.portSettings.end -}}
+            {{- range $i := untilStep (int $start) (int $end) 1 }}
+            - name: xmpp-turn-{{ $i }}
+              containerPort: {{ $i }}
               protocol: TCP
-            - name: xmpp-turn-50001
-              containerPort: 50001
-              protocol: TCP
-            - name: xmpp-turn-50002
-              containerPort: 50002
-              protocol: TCP
-            - name: xmpp-turn-50003
-              containerPort: 50003
-              protocol: TCP
-            - name: xmpp-turn-50004
-              containerPort: 50004
-              protocol: TCP
-            - name: xmpp-turn-50005
-              containerPort: 50005
-              protocol: TCP
-            - name: xmpp-turn-50006
-              containerPort: 50006
-              protocol: TCP
-            - name: xmpp-turn-50007
-              containerPort: 50007
-              protocol: TCP
-            - name: xmpp-turn-50008
-              containerPort: 50008
-              protocol: TCP
-            - name: xmpp-turn-50009
-              containerPort: 50009
-              protocol: TCP
-            - name: xmpp-turn-50010
-              containerPort: 50010
-              protocol: TCP
+            {{- end }}
           readinessProbe:
             tcpSocket:
               port: healthz
