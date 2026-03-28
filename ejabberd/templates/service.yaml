@@ -55,50 +55,6 @@ spec:
       protocol: TCP
       name: xmpp-turn-{{ $i }}
     {{- end }}      
-    - port: 50000
-      targetPort: xmpp-turn-50000
-      protocol: TCP
-      name: xmpp-turn-50000
-    - port: 50001
-      targetPort: xmpp-turn-50001
-      protocol: TCP
-      name: xmpp-turn-50001
-    - port: 50002
-      targetPort: xmpp-turn-50002
-      protocol: TCP
-      name: xmpp-turn-50002
-    - port: 50003
-      targetPort: xmpp-turn-50003
-      protocol: TCP
-      name: xmpp-turn-50003
-    - port: 50004
-      targetPort: xmpp-turn-50004
-      protocol: TCP
-      name: xmpp-turn-50004
-    - port: 50005
-      targetPort: xmpp-turn-50005
-      protocol: TCP
-      name: xmpp-turn-50005
-    - port: 50006
-      targetPort: xmpp-turn-50006
-      protocol: TCP
-      name: xmpp-turn-50006
-    - port: 50007
-      targetPort: xmpp-turn-50007
-      protocol: TCP
-      name: xmpp-turn-50007
-    - port: 50008
-      targetPort: xmpp-turn-50008
-      protocol: TCP
-      name: xmpp-turn-50008
-    - port: 50009
-      targetPort: xmpp-turn-50009
-      protocol: TCP
-      name: xmpp-turn-50009
-    - port: 50010
-      targetPort: xmpp-turn-50010
-      protocol: TCP
-      name: xmpp-turn-50010
   selector:
     {{- include "ejabberd.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: ejabberd
