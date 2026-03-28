@@ -8,9 +8,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: 3478
-      targetPort: xmpp-3478
+      targetPort: xmpp-3478-tcp
       protocol: TCP
-      name: xmpp-3478
+      name: xmpp-3478-tcp
     - port: 3478
       targetPort: xmpp-3478-udp
       protocol: UDP
@@ -47,6 +47,14 @@ spec:
       targetPort: mqtt
       protocol: TCP
       name: mqtt
+    {{- $start := .Values.turn.portSettings.start -}}
+    {{- $end := add1 .Values.turn.portSettings.end -}}
+    {{- range $i := untilStep (int $start) (int $end) 1 }}
+    - port: {{ $i }}
+      targetPort: xmpp-turn-{{ $i }}
+      protocol: TCP
+      name: xmpp-turn-{{ $i }}
+    {{- end }}      
     - port: 50000
       targetPort: xmpp-turn-50000
       protocol: TCP
