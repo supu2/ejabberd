@@ -43,6 +43,10 @@ spec:
       targetPort: xmpp-admin
       protocol: TCP
       name: xmpp-admin
+    - port: 5281
+      targetPort: healthz
+      protocol: TCP
+      name: healthz
     - port: 1883
       targetPort: mqtt
       protocol: TCP
