@@ -44,6 +44,9 @@ spec:
           env:
             - name: "SLIDGE_SERVER"
               value: {{ include "ejabberd.fullname" . }}
+          {{- with .Values.slidge.whatsapp.env }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
