@@ -83,6 +83,12 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+extraVolumes: []
+
+extraVolumeMounts: []
+
+extraInitContainers: []
+
 nodeSelector: {}
 
 tolerations: []
