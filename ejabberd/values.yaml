@@ -154,16 +154,16 @@ slidge:
   signal:
     enabled: false
     image:
-      repository: codeberg.org/slidge/slidge-signal
-      tag: "latest-arm64"
+      repository: codeberg.org/slidge/slidgram
+      tag: "latest"
       pullPolicy: IfNotPresent
     replicaCount: 1
     envFrom: []
   telegram:
     enabled: false
     image:
-      repository: codeberg.org/slidge/slidge-telegram
-      tag: "latest-arm64"
+      repository: codeberg.org/slidge/slidgnal
+      tag: "latest"
       pullPolicy: IfNotPresent
     replicaCount: 1
     envFrom: []
