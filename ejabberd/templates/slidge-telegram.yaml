@@ -1,0 +1,77 @@
+{{- if .Values.slidge.telegram.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ejabberd.fullname" . }}-slidge-telegram
+  labels:
+    {{- include "ejabberd.labels" . | nindent 4 }}
+    app.kubernetes.io/component: slidge-telegram
+spec:
+  replicas: {{ .Values.slidge.telegram.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ejabberd.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: slidge-telegram
+  template:
+    metadata:
+      annotations:
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ejabberd.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: slidge-telegram
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "ejabberd.serviceAccountName" . }}
+      automountServiceAccountToken: false
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: slidge-telegram
+          image: "{{ .Values.slidge.telegram.image.repository }}:{{ .Values.slidge.telegram.image.tag }}"
+          imagePullPolicy: {{ .Values.slidge.telegram.image.pullPolicy }}
+          {{- with .Values.slidge.telegram.envFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            - name: "SLIDGE_SERVER"
+              value: {{ include "ejabberd.fullname" . }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/slidge
+              subPath: telegram
+              readOnly: false
+      volumes:
+        - name: data
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "ejabberd.pvcName" . }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
