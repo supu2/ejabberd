@@ -47,6 +47,15 @@ securityContext:
   runAsUser: 9000
   runAsGroup: 9000
 
+readinessProbe:
+  tcpSocket:
+    port: healthz
+
+livenessProbe:
+  tcpSocket:
+    port: healthz
+  initialDelaySeconds: 15
+
 # The Kubernetes Service that exposes the ejabberd server.
 # To make the server available outside the cluster, the type should be change to `NodePort` or `LoadBalancer`.
 service:

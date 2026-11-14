@@ -86,13 +86,14 @@ spec:
               containerPort: {{ $i }}
               protocol: TCP
             {{- end }}
+          {{- with .Values.readinessProbe }}
           readinessProbe:
-            tcpSocket:
-              port: healthz
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.livenessProbe }}
           livenessProbe:
-            tcpSocket:
-              port: healthz
-            initialDelaySeconds: 15
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
