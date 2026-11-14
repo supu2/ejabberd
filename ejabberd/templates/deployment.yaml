@@ -36,6 +36,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
+      {{- with .Values.extraContainers }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
         # Main ejabberd container
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -75,9 +78,6 @@ spec:
               protocol: TCP
             - name: xmpp-admin
               containerPort: 5280
-              protocol: TCP
-            - name: healthz
-              containerPort: 5281
               protocol: TCP
             {{- $start := .Values.turn.portSettings.start -}}
             {{- $end := add1 .Values.turn.portSettings.end -}}
